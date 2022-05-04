@@ -17,7 +17,7 @@
 
 
   {% unless hide_section %}
-  {{ 'banner.css' | asset_url | stylesheet_tag }}
+  {{ 'blog-banner.css' | asset_url | stylesheet_tag }}
 
   <div class="blog-banner-new banner_section--{{ section.id }} swiper-container" role="region" aria-label="Hero" data-rotation-speed="{{ section.settings.rotation_speed | plus: 0 | times: 1000 }}" data-hero-slider>
     
