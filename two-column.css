@@ -1,0 +1,72 @@
+   main {
+     
+    font-family: inherit;
+   }
+
+      @font-face {
+      font-family: 'wide';
+      src: url(https://cdn.shopify.com/s/files/1/1832/9335/files/GraphikWide-Regular.woff2?v=1627450731);
+    }
+
+    @font-face {
+      font-family: 'Didot Bold';
+      src: url(https://cdn.shopify.com/s/files/1/1832/9335/files/Didot_LT_Std_Bold.otf?v=1650562835);
+    }
+
+
+.custom-text-header {
+      margin: 0 auto;
+      text-align: center;
+      padding-top: 20px;
+      padding-bottom: 20px;
+       font-family: 'Didot Bold';
+      font-size: 80px;
+      text-transform: none;
+    }
+
+.custom-text-section {
+  max-width: 1000px;
+  padding-top: 20px;
+  margin: 0 auto;
+
+    }
+
+    .custom_span_header {
+      font-size: 14PX;
+      text-align: center;
+      margin: 0 auto;
+      font-family: wide;
+    }
+
+    .one-half-column-left {
+        width:48%;
+        float:left;
+        padding-top: 0;
+    }
+
+    .one-half-column-right {
+        width:48%;
+        float:right;
+        padding-top: 0;
+    }
+
+
+
+    @media only screen and (max-width: 767px){
+        .one-half-column-left, .one-half-column-right, 
+        .one-third-column, .one-third-column-last {
+        float:none;
+        width:100%;
+        margin-right:0;
+        padding: 20px!important;
+        }
+    .custom-text-header {
+          font-size: 32px !important;
+          font-weight: bold;
+          
+        }
+      hr {
+        display: none;
+      }
+      
+    }
