@@ -1,0 +1,228 @@
+{% assign hide_section = false %}
+
+{% if customer and section.settings.display_state == 'logged_out' %}
+  {% assign hide_section = true %}
+{% elsif customer == blank and section.settings.display_state == 'logged_in' %}
+  {% assign hide_section = true %}
+{% endif %}
+
+{{ 'boutiq-banner.css' | asset_url | stylesheet_tag }}
+
+  {% unless hide_section %}
+  {{ 'banner-imgvideo.css' | asset_url | stylesheet_tag }}
+
+  <div class="banner-imgvideo banner--{{ section.id }} swiper-container" role="region" aria-label="Hero" data-rotation-speed="{{ section.settings.rotation_speed | plus: 0 | times: 1000 }}" data-hero-slider>
+    
+     {%- if section.settings.video_url != blank -%}
+       <div class="banner-video-wrap">
+        <video class="video-full" id="myVideo" width:100%; 
+        height: 100%; loop autoplay preload="none" muted playsinline >
+            <source src="{{ section.settings.video_url }}" type="video/mp4" />
+        </video>
+       </div>
+    {% endif %}
+    
+    <div class="banner__background-image medium-up--hide lazyload" data-bgset="{% render 'responsive-bg-image', image: section.settings.mobile_background_image %}"></div>
+    <div class="banner__background-image small--hide lazyload" data-bgset="{% render 'responsive-bg-image', image: section.settings.desktop_background_image %}"></div>
+
+    <div class="wrapper">
+      <div class="banner__content banner__content--mobile-{{ section.settings.mobile_content_position }} banner__content--desktop-{{ section.settings.desktop_content_position }} small--text-{{ section.settings.mobile_text_alignment }} medium-up--text-{{ section.settings.desktop_text_alignment }}">
+        <h3>{{ section.settings.headline | newline_to_br }}</h3>
+
+        <p>{{ section.settings.content | newline_to_br }}</p>
+
+       <button onclick="boutiqApp.openPreset('82378f1b-727d-4a7b-a7f1-7714a80083ac');" class="btn btn--tertiary boutiq-btn">CONNECT NOW</button>
+  
+      </div>
+    </div>
+  </div>
+
+
+
+  <style>
+    .banner--{{ section.id }} {
+      height: {{ section.settings.mobile_height }}px;
+    }
+
+    @media only screen and (min-width: 750px) {
+      .banner--{{ section.id }} {
+        height: {{ section.settings.desktop_height }}px;
+      }
+    }
+
+    .banner--{{ section.id }} .banner__content {
+      color: {{ section.settings.text_color }};
+    }
+     .banner--{{ section.id }} .banner__content p {
+      color: {{ section.settings.text_color }};
+    }
+  
+    .boutiq-cta-button-wrapper {
+        text-align: {{ section.settings.alignment }};
+      	margin: 8px;
+      margin-top: 30px;
+      margin-bottom: 80px;
+    }
+   
+</style>
+
+
+{% endunless %}
+
+{% schema %}
+  {
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "headline",
+        "label": "Headline"
+      },
+      {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "radio",
+        "id": "text_color",
+        "label": "Text Color",
+        "options": [
+          {"value": "white", "label": "White"},
+          {"value": "black", "label": "Black"}
+        ],
+        "default": "white"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_background_image",
+        "label": "Desktop Background Image",
+        "info": "Dimensions 2880 x 1224"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_background_image",
+        "label": "Mobile Background Image",
+        "info": "Dimensions 750 x 1360"
+      },
+      {
+        "type": "number",
+        "id": "desktop_height",
+        "label": "Desktop Height (px)",
+        "default": 612
+      },
+      {
+        "type": "number",
+        "id": "mobile_height",
+        "label": "Mobile Height (px)",
+        "default": 680
+      },
+      {
+        "type": "text",
+        "id": "video_url",
+        "label": "Video URL",
+        "info": "Upload video to Settings > Files or Vimeo and add the URL here"
+      },
+      {
+        "type": "select",
+        "id": "desktop_text_alignment",
+        "label": "Desktop Text Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "mobile_text_alignment",
+        "label": "Mobile Text Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "desktop_content_position",
+        "label": "Desktop Content Position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "right"
+      },
+      {
+        "type": "select",
+        "id": "mobile_content_position",
+        "label": "Mobile Content Position",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "bottom"
+      },
+      {
+        "type": "select",
+        "id": "display_state",
+        "label": "Display State",
+        "options": [
+          {
+            "value": "all",
+            "label": "All Users"
+          },
+          {
+            "value": "logged_out",
+            "label": "Logged Out Users"
+          },
+          {
+            "value": "logged_in",
+            "label": "Logged In Users"
+          }
+        ],
+        "default": "all"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Boutiq Banner"
+      }
+    ]
+  }
+{% endschema %}
