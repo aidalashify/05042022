@@ -1,0 +1,95 @@
+<style>
+  .announcement-bar {
+    background-color: {{ section.settings.announcement_bar_color }};
+    text-align: center!important;
+    text-decoration: none;
+  }
+  .announcement-bar__message {
+    font-family: "Graphik Wide Bold",helvetica,arial,sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    margin: 0!important;
+    text-align: center!important;
+    color: {{ section.settings.announcement_bar_text_color }};
+  }
+  
+  
+</style>  
+
+{%- if section.settings.show_announcement -%}
+  {%- if section.settings.home_page_only == false or template.name == 'index' -%}
+
+   
+      <div class="announcement-bar">
+  
+        <a href="{{ section.settings.link }}" >
+  
+
+        <p class="announcement-bar__message">{{ section.settings.text | escape }}</p>
+        
+        <a class="announcement-bar__message" href="sms:{{ section.settings.text_us_number }}" title="{{ section.settings.text_us_text }}">
+            {{ section.settings.text_us_text }}
+        </a>
+
+    {%- if section.settings.link == blank -%}
+
+    {%- else -%}
+    
+    {%- endif -%}
+          </a>
+      </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "announcement_bar_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+	{
+      "type": "color",
+      "id": "announcement_bar_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Announce something here"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Announcement link"
+    },
+  {
+        "type": "text",
+        "id": "text_us_text",
+        "label": "Text Us Text"
+      },
+      {
+        "type": "text",
+        "id": "text_us_number",
+        "label": "Text Us Number"
+      }
+  ]
+}
+{% endschema %}
