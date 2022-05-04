@@ -1,0 +1,159 @@
+{{ 'four-column.css' | asset_url | stylesheet_tag }}
+
+<main class="four-column-main">
+  
+  <h1 class="title-left header_newlines">
+    {{ section.settings.custom_text_header}}
+  </h1>
+
+  
+  {{ header_newlines | newline_to_br }}
+
+
+<p class="custom_span_header">{{ section.settings.custom_text_span}}</p>
+
+<div class="four-column-section">
+  
+
+    <div class="first-column column">
+       <div class="img-column">
+        {{ section.settings.column_image1 | img_url: '' | img_tag }}
+       </div>
+        <div class="rule-text">{{ section.settings.custom_text_body-first }}</div>
+        <h2 class="name-text"> {{ section.settings.custom_text_title-first }} </h2>
+    </div>
+
+    <div class="second-column column">
+       <div class="img-column">
+        {{ section.settings.column_image2 | img_url: '' | img_tag }}
+       </div>
+       <div  class="rule-text">{{ section.settings.custom_text_body-second }}</div>
+       <h2 class="name-text"> {{ section.settings.custom_text_title-second }} </h2>
+    </div>
+  
+   <div class="third-column column">
+       <div class="img-column">
+        {{ section.settings.column_image3 | img_url: '' | img_tag }}
+       </div>
+      <div  class="rule-text">{{ section.settings.custom_text_body-third }}</div>
+     <h2 class="name-text"> {{ section.settings.custom_text_title-third }} </h2>
+    </div>
+  
+   <div class="fourth-column column">
+       <div class="img-column">
+        {{ section.settings.column_image4 | img_url: '' | img_tag }}
+       </div>
+      <div  class="rule-text">{{ section.settings.custom_text_body-fourth }}</div>
+      <h2 class="name-text"> {{ section.settings.custom_text_title-fourth }} </h2>
+    </div>
+  
+  
+  <br style="clear:both;" />
+  
+ <hr style="border-color:#E6E6E6;  height: 0.5px!important;"/>
+
+  
+</div>
+
+
+</main>
+
+
+
+
+{% schema %}
+  {
+    "name": "Four Column",
+    "settings": [
+{
+        "id": "custom_text_header",
+        "type": "text",
+        "label": "main heading",
+        "default": "Title"
+      },
+{
+        "id": "custom_text_span",
+        "type": "text",
+        "label": "span",
+        "default": "span"
+      },
+      {
+        "id": "custom_text_title-first",
+        "type": "text",
+        "label": "Text box heading",
+        "default": "Title"
+      },
+      {
+        "id": "custom_text_body-first",
+        "type": "richtext",
+        "label": "Add custom text below",
+        "default": "<p>Add your text here</p>"
+      },
+ {
+        "id": "column_image1",
+        "type": "image_picker",
+        "label": "Image"
+      },
+
+ {
+        "id": "custom_text_title-second",
+        "type": "text",
+        "label": "Text box heading",
+        "default": "Title"
+      },
+      {
+        "id": "custom_text_body-second",
+        "type": "richtext",
+        "label": "Add custom text below",
+        "default": "<p>Add your text here</p>"
+      },
+ {
+        "id": "column_image2",
+        "type": "image_picker",
+        "label": "Image"
+      },
+
+ {
+        "id": "custom_text_title-third",
+        "type": "text",
+        "label": "Text box heading",
+        "default": "Title"
+      },
+      {
+        "id": "custom_text_body-third",
+        "type": "richtext",
+        "label": "Add custom text below",
+        "default": "<p>Add your text here</p>"
+      },
+ {
+        "id": "column_image3",
+        "type": "image_picker",
+        "label": "Image"
+      },
+{
+        "id": "custom_text_title-fourth",
+        "type": "text",
+        "label": "Text box heading",
+        "default": "Title"
+      },
+      {
+        "id": "custom_text_body-fourth",
+        "type": "richtext",
+        "label": "Add custom text below",
+        "default": "<p>Add your text here</p>"
+      },
+ {
+        "id": "column_image4",
+        "type": "image_picker",
+        "label": "Image"
+      }
+  
+    ],
+ "presets": [
+      {
+      "name": "Four Column",
+      "category": "ADVANCED LAYOUT"
+      }
+      ]
+  }
+{% endschema %}
