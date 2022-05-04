@@ -1,0 +1,321 @@
+{% assign hide_section = false %}
+
+{% if customer and section.settings.display_state == 'logged_out' %}
+  {% assign hide_section = true %}
+{% elsif customer == blank and section.settings.display_state == 'logged_in' %}
+  {% assign hide_section = true %}
+{% endif %}
+
+{% unless hide_section %}
+  <script src="{{ 'featured-product.js' | asset_url }}" defer="defer"></script>
+  {{ 'featured-product.css' | asset_url | stylesheet_tag }}
+
+  {% assign featured_product = all_products[section.settings.product] %}
+
+  <div class="featured-product featured-product--{{ section.id }}" role="region" aria-label="Featured Product" data-product data-featured-product>
+    <div class="wrapper">
+      <div class="grid">
+        <div class="text-center grid__item medium--6 large--7">
+          <div class="swiper-container" data-featured-product-slider>
+            <div class="swiper-wrapper" data-featured-product-slider-wrapper>
+              {% for block in section.blocks %}
+                <div class="swiper-slide" data-color="{{ block.settings.color | downcase }}" data-featured-product-slide>
+                  {% render 'responsive-image' with
+                    image: block.settings.image,
+                    max_width: 584,
+                    max_height: 584
+                  %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="featured-product__swiper-controls">
+              <button class="swiper-button-prev" type="button" aria-label="Go to previous slide" data-swiper-prev>
+                {% render 'icon-arrow-left-thin' %}
+              </button>
+
+              <button class="swiper-button-next" type="button" aria-label="Go to next slide" data-swiper-next>
+                {% render 'icon-arrow-right-thin' %}
+              </button>
+            </div>
+          </div>
+
+          {% if section.settings.badge_1 != blank %}
+            <div class="featured-product__badges">
+              {% for i in (1..6) %}
+                {% capture badge %}badge_{{ i }}{% endcapture %}
+
+                {% if section.settings[badge] != blank %}
+                  {% render 'responsive-image' with
+                    image: section.settings[badge],
+                    max_width: 88,
+                    max_height: 88
+                  %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="grid__item small--text-center medium--6 large--4">
+          <small>{{ section.settings.intro }}</small>
+
+          <h3 class="ui-lowercase">{{ section.settings.headline }}</h3>
+
+          <p class="featured-product__price">
+            {% if featured_product.compare_at_price > featured_product.price %}
+              {{ featured_product.price | money_with_currency }}
+              <s>{{ featured_product.compare_at_price | money_with_currency }}</s>
+            {% else %}
+              {{ featured_product.price | money_with_currency }}
+            {% endif %}
+          </p>
+
+          <p>{{ section.settings.content }}</p>
+
+          <div class="featured-product__controls">
+            {% if section.settings.video_cta_text != blank %}
+              <button type="button" data-modal-toggle="featured-product-{{ section.id }}">
+                {{ section.settings.video_cta_text }}
+              </button>
+            {% endif %}
+
+            <a href="{{ featured_product.url }}" title="{{ section.settings.headline }} - {{ section.settings.view_details_cta_text }}">
+              {{ section.settings.view_details_cta_text }}
+            </a>
+          </div>
+
+          <form class="form-vertical"
+                action="{{ routes.cart_add_url }}"
+                method="post"
+                enctype="multipart/form-data"
+                data-product-form>
+
+            <select name="id" id="productSelect-{{ featured_product.id }}" data-product-select>
+              {% for variant in featured_product.variants %}
+                {% if variant.available %}
+                  <option {% if variant == featured_product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">
+                    {{ variant.title }} - {{ variant.price | money_with_currency }}
+                  </option>
+                {% else %}
+                  <option disabled="disabled">
+                    {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                  </option>
+                {% endif %}
+              {% endfor %}
+            </select>
+
+            <button type="button" name="add" class="btn" data-product-submit>
+              <span class="visually-hidden">{{ featured_product.title }} - <span data-product-price></span></span>
+              <span data-product-submit-text>{{ 'products.product.add_to_bag' | t }}</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.video_cta_text != blank %}
+    {% capture modal_content %}
+      <video width="100%" height="100%">
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {% endcapture %}
+
+    {% capture modal_id %}featured-product-{{ section.id }}{% endcapture %}
+
+    {% render 'modal',
+      id: modal_id,
+      content: modal_content,
+      video_headline: section.settings.video_headline
+    %}
+  {% endif %}
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectCallback = function(variant, selector) {
+        product.form({
+          variant: variant,
+          selector: selector
+        });
+      };
+
+      new Shopify.OptionSelectors('productSelect-{{ featured_product.id }}', {
+        product: {{ featured_product | json }},
+        onVariantSelected: selectCallback,
+        enableHistoryState: false
+      });
+    });
+  </script>
+
+  <style>
+    .featured-product--{{ section.id }} {
+      padding: {{ section.settings.mobile_top_padding }}px 0 {{ section.settings.mobile_bottom_padding }}px;
+    }
+
+    @media only screen and (min-width: 1025px) {
+      .featured-product--{{ section.id }} {
+        padding: {{ section.settings.desktop_top_padding }}px 0 {{ section.settings.desktop_bottom_padding }}px;
+      }
+    }
+  </style>
+{% endunless %}
+
+{% schema %}
+  {
+    "settings": [
+      {
+        "type": "text",
+        "id": "intro",
+        "label": "Intro"
+      },
+      {
+        "type": "text",
+        "id": "headline",
+        "label": "Headline"
+      },
+      {
+        "type": "product",
+        "id": "product",
+        "label": "Product"
+      },
+      {
+        "type": "textarea",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "text",
+        "id": "video_cta_text",
+        "label": "Video CTA Text",
+        "default": "Watch the video"
+      },
+      {
+        "type": "text",
+        "id": "video_headline",
+        "label": "Video Headline"
+      },
+      {
+        "type": "text",
+        "id": "video_url",
+        "label": "Video URL",
+        "info": "Upload video to Settings > Files or Vimeo and add the URL here"
+      },
+      {
+        "type": "text",
+        "id": "view_details_cta_text",
+        "label": "View Details CTA Text",
+        "default": "View Details"
+      },
+      {
+        "type": "image_picker",
+        "id": "badge_1",
+        "label": "Badge 1",
+        "info": "Dimensions 176 x 176 .png"
+      },
+      {
+        "type": "image_picker",
+        "id": "badge_2",
+        "label": "Badge 2",
+        "info": "Dimensions 176 x 176 .png"
+      },
+      {
+        "type": "image_picker",
+        "id": "badge_3",
+        "label": "Badge 3",
+        "info": "Dimensions 176 x 176 .png"
+      },
+      {
+        "type": "image_picker",
+        "id": "badge_4",
+        "label": "Badge 4",
+        "info": "Dimensions 176 x 176 .png"
+      },
+    {
+        "type": "image_picker",
+        "id": "badge_5",
+        "label": "Badge 5",
+        "info": "Dimensions 176 x 176 .png"
+      },    {
+        "type": "image_picker",
+        "id": "badge_6",
+        "label": "Badge 6",
+        "info": "Dimensions 176 x 176 .png"
+      },
+      {
+        "type": "select",
+        "id": "display_state",
+        "label": "Display State",
+        "options": [
+          {
+            "value": "all",
+            "label": "All Users"
+          },
+          {
+            "value": "logged_out",
+            "label": "Logged Out Users"
+          },
+          {
+            "value": "logged_in",
+            "label": "Logged In Users"
+          }
+        ],
+        "default": "all"
+      },
+      {
+        "type": "number",
+        "id": "mobile_top_padding",
+        "label": "Mobile Top Padding",
+        "default": 70,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "mobile_bottom_padding",
+        "label": "Mobile Bottom Padding",
+        "default": 24,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "desktop_top_padding",
+        "label": "Desktop Top Padding",
+        "default": 78,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "desktop_bottom_padding",
+        "label": "Desktop Bottom Padding",
+        "default": 64,
+        "info": "Padding pixel value Ex. 40"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "limit": 8,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Dimensions 1168 x 698"
+          },
+          {
+            "type": "text",
+            "id": "color",
+            "label": "Color",
+            "info": "The color as it appears in the option dropdown."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Product"
+      }
+    ]
+  }
+{% endschema %}
