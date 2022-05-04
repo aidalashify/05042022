@@ -1,0 +1,172 @@
+      <!-- text section starts -->
+
+ <style>
+   
+   {% comment %}
+    .text-section--{{ section.text }} {
+      padding: {{ section.settings.mobile_top_padding }}px 0 {{ section.settings.mobile_bottom_padding }}px;
+    }
+
+    @media only screen and (min-width: 1025px) {
+      .text-section--{{ section.text }} {
+        padding: {{ section.settings.desktop_top_padding }}px 0 {{ section.settings.desktop_bottom_padding }}px;
+      }
+    }
+    {% endcomment %}
+   
+            @font-face {
+      font-family: 'wide';
+      src: url(https://cdn.shopify.com/s/files/1/1832/9335/files/GraphikWide-Regular.woff2?v=1627450731);
+    }
+      
+      .blog_span_header {
+         font-size: 18PX;
+      text-align: center;
+      margin: 0 auto;
+      font-family: 'wide';
+        padding-bottom: 50px;
+        padding-top: 50px;
+      }
+   
+   .text {
+   max-width:1024px;
+     margin:0 auto;
+   }
+   .text-outter {
+   
+   padding-bottom: 50px;}
+   
+    @media only screen and (max-width: 767px) {
+   
+      .container {
+      padding: 30px;
+      }
+       .blog_span_header {
+        padding-top: 20px;
+      }
+       .text-outter {
+   
+   padding-bottom: 10px;
+         padding-top: 10px;
+       }
+    }
+  </style>
+
+
+
+      <section class="text text-left text-section--{{ section.text }}">
+        <div class="container">
+        <div class="text-outter">
+          
+           {% if section.settings.custom_text_span != blank %}
+          <p class="blog_span_header">{{ section.settings.custom_text_span}}</p>
+                    {% endif %}
+          
+          {% if section.settings.section-heading != blank %}
+            <h2 class="section-heading">{{ section.settings.section-heading }}</h2>
+          {% endif %}
+          
+          {% if section.settings.section-large-heading != blank %}
+            <h1 class="section-large-heading">{{ section.settings.section-large-heading }}</h1>
+          {% endif %}
+          
+          {% if section.settings.description != blank %}
+            <p class="discription">{{ section.settings.description }}</p>
+          {% endif %}
+          
+       </div>
+          
+        <div class="col-xs-12 col-md-12 text-left">
+          
+          {% if section.settings.view-btn != blank %}
+            <button class="view-btn">
+              <a href="{{ section.settings.view-btn-link }}">{{ section.settings.view-btn }}</a>
+            </button>
+         {% endif %}
+        </div>
+          
+      
+          
+       </div>
+      </section>
+
+
+      <!-- text section ends -->
+    {% schema %}
+      {
+      "name": "Blog Text", 
+      "class": "text-section",
+      "settings": [
+{
+        "id": "custom_text_span",
+        "type": "text",
+        "label": "span",
+        "default": "span"
+      },
+      {
+      "id": "section-heading",
+      "type": "text",
+      "label": "Heading 1"
+      },
+      {
+      "id": "section-large-heading",
+      "type": "text",
+      "label": "Heading 2"
+      },
+      {
+      "id": "description",
+      "type": "textarea",
+      "label": "Description"
+      },
+      {
+      "id": "view-btn-link",
+      "type": "url",
+      "label": "Button URL"
+      },
+      {
+      "id": "view-btn",
+      "type": "text",
+      "label": "Button name"
+      },
+  {
+        "type": "number",
+        "id": "mobile_top_padding",
+        "label": "Mobile Top Padding",
+        "default": 24,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "mobile_bottom_padding",
+        "label": "Mobile Bottom Padding",
+        "default": 50,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "desktop_top_padding",
+        "label": "Desktop Top Padding",
+        "default": 44,
+        "info": "Padding pixel value Ex. 40"
+      },
+      {
+        "type": "number",
+        "id": "desktop_bottom_padding",
+        "label": "Desktop Bottom Padding",
+        "default": 55,
+        "info": "Padding pixel value Ex. 40"
+      }
+      ],
+      "presets": [
+      {
+      "name": "Blog Text",
+      "category": "ADVANCED LAYOUT"
+      }
+      ]
+      }
+    {% endschema %}
+      
+   
+
+
+ 
