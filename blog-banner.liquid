@@ -1,12 +1,3 @@
-<style>
-   @font-face {
-      font-family: 'Didot Bold';
-      src: url(https://cdn.shopify.com/s/files/1/1832/9335/files/Didot_LT_Std_Bold.otf?v=1650562835);
-    }
-  
-</style>
-
-
 {% assign hide_section = false %}
 
 {% if customer and section.settings.display_state == 'logged_out' %}
@@ -19,7 +10,7 @@
   {% unless hide_section %}
   {{ 'blog-banner.css' | asset_url | stylesheet_tag }}
 
-  <div class="blog-banner-new banner_section--{{ section.id }} swiper-container" role="region" aria-label="Hero" data-rotation-speed="{{ section.settings.rotation_speed | plus: 0 | times: 1000 }}" data-hero-slider>
+  <div class="blog-banner blog-banner_section--{{ section.id }} swiper-container" role="region" aria-label="Hero" data-rotation-speed="{{ section.settings.rotation_speed | plus: 0 | times: 1000 }}" data-hero-slider>
     
      {%- if section.settings.video_url != blank -%}
        <div class="banner-video-wrap">
@@ -37,8 +28,7 @@
    
     <div class="wrapper">
       
-      <div class="blog-banner__content blog-banner__content--mobile-{{ section.settings.mobile_content_position }} blog-banner__content--desktop-{{ section.settings.desktop_content_position }} small--text-{{ section.settings.mobile_text_alignment }} medium-up--text-{{ section.settings.desktop_text_alignment }}"
-           style="justify-content:center!important;">
+      <div class="blog-banner__content blog-banner__content--mobile-{{ section.settings.mobile_content_position }} blog-banner__content--desktop-{{ section.settings.desktop_content_position }} small--text-{{ section.settings.mobile_text_alignment }} medium-up--text-{{ section.settings.desktop_text_alignment }}">
         
          {% if section.settings.intro != blank %}
                   <small>{{ section.settings.intro }}</small>
@@ -48,13 +38,13 @@
         
            {% if section.settings.headline != blank %}
                  
-                    <h2 class="medium-up--hide" style="zfont-family: 'Didot Bold'!important; font-size: 50px!important; margin-top:100px!important;">
+                    <h3 class="medium-up--hide">
                       {{ section.settings.mobile_headline | newline_to_br }}
-                    </h2>
+                    </h3>
 
-                    <h2 class="small--hide" style="font-family: 'Didot Bold'!important; font-size: 80px!important;">
+                    <h3 class="small--hide">
                       {{ section.settings.headline | newline_to_br }}
-                    </h2>
+                    </h3>
                
            {% endif %}
 
@@ -97,20 +87,20 @@
 
 
   <style>
-    .banner_section--{{ section.id }} {
+    .blog-banner_section--{{ section.id }} {
       height: {{ section.settings.mobile_height }}px;
     }
 
     @media only screen and (min-width: 750px) {
-      .banner_section--{{ section.id }} {
+      .blog-banner_section--{{ section.id }} {
         height: {{ section.settings.desktop_height }}px;
       }
     }
 
-    .banner_section--{{ section.id }} .blog-banner__content {
+    .blog-banner_section--{{ section.id }} .blog-banner__content {
       color: {{ section.settings.text_color }};
     }
-     .banner_section--{{ section.id }} .blog-banner__content p {
+     .blog-banner_section--{{ section.id }} .blog-banner__content p {
       color: {{ section.settings.text_color }};
     }
   
@@ -126,16 +116,15 @@
             "id": "intro",
             "label": "Intro"
           },
-     
+       {
+            "type": "textarea",
+            "id": "mobile_headline",
+            "label": "Mobile Headline"
+          },
           {
             "type": "textarea",
             "id": "headline",
             "label": "Headline"
-          },
- {
-            "type": "textarea",
-            "id": "mobile_headline",
-            "label": "Mobile Headline"
           },
        {
             "type": "textarea",
@@ -340,7 +329,7 @@
     ],
     "presets": [
       {
-        "name": "Banner"
+        "name": "Blog Banner"
       }
     ]
   }
