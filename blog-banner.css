@@ -10,8 +10,7 @@
       src: url(https://cdn.shopify.com/s/files/1/1832/9335/files/Didot_LT_Std_Bold.otf?v=1650562835);
     }
 
-
-.banner.blog-banner-new {
+banner.blog-banner {
     position: relative;
     padding: 44px 0;
     border-top: 1px solid #fff;
@@ -40,7 +39,7 @@
   margin-right:0
 }
 
-.blog-banner-new .overlay-banner {
+.blog-banner .overlay-banner {
 
 content: "";
 
@@ -67,10 +66,10 @@ z-index: 1;
         left: auto;
         transform: translate(0, -50%);
     }
-    .blog-banner__content.blog-banner__content--desktop-right {
+    .blog-banner__content.banner__content--desktop-right {
         right: 0;
     }
-    .blog-banner__content.blog-banner__content--desktop-center {
+    .blog-banner__content.banner__content--desktop-center {
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -78,7 +77,7 @@ z-index: 1;
     display:block;
     margin-bottom:5px;
     color:#fff;
-    font-family: 'Didot Bold'!important;
+    font-family:"Graphik Wide Regular",helvetica,arial,sans-serif;
     font-size:2.4rem;
     letter-spacing:0.2rem;
     text-transform:uppercase
@@ -119,19 +118,19 @@ z-index: 1;
         bottom: auto;
     }
 }
-.blog-banner__content h2 {
+.blog-banner__content h3 {
     margin-bottom: 19px;
+    font-size: 3.2rem;
     line-height: 3.2rem;
-    font-family: 'Didot Bold'!important;
-      font-size: 80px;
+  font-family: 'Didot Bold'!important;
 }
 @media screen and (min-width: 750px) {
-    .blog-banner__content h2 {
+    .blog-banner__content h3 {
         margin-top: -15px;
         margin-bottom: 26px;
-        font-family: 'Didot Bold'!important;
-        font-size: 80px;
+        font-size: 4.8rem;
         line-height: 4.8rem;
+      font-family: 'Didot Bold'!important;
     }
 }
 .blog-banner__content p {
